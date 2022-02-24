@@ -26,13 +26,10 @@ def recup_keys(): #retourne la liste des keys qui décrivent les perso: exemple:
     infoPerso = possibilites["0"]
     keys = list(infoPerso)  #liste des keys du dictionnaire
 
-    for i in range(len(keys)) :  #affiche toutes les key du dictionnaire
-      print(keys[i])
+    # for i in range(len(keys)) :  #affiche toutes les key du dictionnaire
+    #   print(keys[i])
 
     return keys 
-
-
-
 
 
 
