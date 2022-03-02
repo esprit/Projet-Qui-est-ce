@@ -28,9 +28,10 @@ def recup_keys(): #retourne la liste des keys qui décrivent les perso: exemple:
     # for i in range(len(keys)) :  #affiche toutes les key du dictionnaire
     #   print(keys[i])
     return keys 
+
     
+#fonction qui ranvoie le perso choisi par l'ordi  
 def randompersonnage ():
-  #fonction qui ranvoie le perso choisi par l'ordi
   with open('perso.json', 'r') as f:
     data = json.load(f)
     possibilites = data["possibilites"]
@@ -63,6 +64,7 @@ def tri_keys(caract):
         possibles.append(possibilites[str(i)][caract])
   return(possibles)
 
+#crée une liste de prénom correspondant à la valeur du caractere (toute les personnes qui ont les cheveux roux par ex)
 def creerliste(caract,valeur): 
   with open('perso.json', 'r') as f:
     data = json.load(f)
