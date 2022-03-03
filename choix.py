@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter as tk
 import tkinter.ttk
 from recup import *
-
+import time
 
 #Saisie le choix de la première question + la grise
 def getchoix(event):
@@ -21,7 +21,10 @@ def getvaleur(event):
   
 #choix du premier critère
 def action2(event):  
-    global choixliste
+    global choixliste,frameperdu,perd
+    if perd==1:
+      frameperdu.destroy()
+      perd=0
     cb['state']=DISABLED
     choix = cb.get()
     liste = tri_keys(choix)
@@ -82,8 +85,9 @@ def verif():
       
 #vérification après selection du prenom
 def OK(event):
+  global frameperdu,perd
   perso = cbprenom.get()
-  if dicoperso["prenom"]==perso:
+  if dicoperso["nom"]==perso:
     frameMain.destroy()
     framereponse.destroy()
     framebravo=Frame(win_game,bg="pink",relief=RAISED,bd=3)
@@ -102,8 +106,16 @@ def OK(event):
     
   else:
     NON()
+    perd=1
+    frameperdu=Frame(win_game,bg="pink",relief=RAISED,bd=3)
+    frameperdu.grid(row=1,column=2)
+    perdu=Label(frameperdu,text="Perdu, essaye encore !",bg="pink",font=("Courrier", 15))
+    perdu.grid(padx=20,pady=20)
+    
     
 
+
+    
 def NON(): 
   frameMain.destroy()
   framereponse.destroy()
@@ -114,7 +126,7 @@ def OUI():
   global cbprenom
   oui.destroy()
   non.destroy()
-  liste=tri_keys("prenom")
+  liste=tri_keys("nom")
   cbprenom = tkinter.ttk.Combobox(framesuite, state="readonly", values=liste)
   cbprenom.grid(row=2,columnspan=4, pady=10, padx=5)
   cbprenom.bind("<<ComboboxSelected>>", OK)
@@ -147,7 +159,7 @@ def listepersonne():
 #renvoie le complement des prenoms de liste
 def complementliste(liste):
     
-    l=tri_keys('prenom')
+    l=tri_keys('nom')
     for i in range (len(liste)):
       if liste[i] in l:
         l.remove(liste[i])
@@ -157,8 +169,7 @@ def complementliste(liste):
   
 #affichage vrai test sur la deuxieme frame
 def vraitest():
-  global framesuite,label_reponse,oui,non,label_perso
-
+  global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu
   t=verif()
   if  test:
     label_reponse = Label(framereponse,
@@ -218,6 +229,7 @@ def OU():
 #Deux premieres combobox + les boutons de la premiere frame
 def question():    
   global cb,cb1,l,line,test,choixliste,connecteur,frameMain,frameConnect,ou,et,framereponse,val
+
   frameMain = Frame(win_game, relief=RAISED, bg="DarkTurquoise", bd=4)
   frameConnect = Frame(frameMain, bg="DarkTurquoise")
   
@@ -270,13 +282,14 @@ def question():
   
 #relance une nouvelle partie
 def partie():
-  global win_game,dicoperso
+  global win_game,dicoperso,perd
   win_game = Tk()
   win_game.title("Qui est-ce ?")
   win_game.geometry("1050x750")
   win_game.minsize(1050, 700)
   win_game.config(background='paleturquoise')
   dicoperso = randompersonnage()  #choix du personnage
+  perd=0
   print(dicoperso)
   question()
 
