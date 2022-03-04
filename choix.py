@@ -196,7 +196,7 @@ def vraitest():
       
       labeltriche=Label(framereponse,font=("Courrier", 12),
                             bg="pink",
-                            text= str(len(personne))+" personnages à éliminer")
+                            text= str(len(personne))+" image(s) à cocher")
       labeltriche.grid(row=3, column=0, pady=10, padx=5)
   else:
     print("fais ton choix :)")

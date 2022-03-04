@@ -16,7 +16,7 @@ def affichage_possibilite():
         perso = possibilites[str(i)]
         my_img = "personnages/" + perso["fichier"]
         mes_images.append(my_img)
-        mes_perso.append(perso["prenom"])
+        mes_perso.append(perso["nom"])
 
     
 def recup_keys(): #retourne la liste des keys qui décrivent les perso: exemple: ['fichier', 'prenom', 'genre', 'cheveux', 'lunettes', 'chauve']
@@ -73,5 +73,5 @@ def creerliste(caract,valeur):
     possibles=[]
     for i in range(nbperso):
       if possibilites[str(i)][caract]==valeur :
-        possibles.append(possibilites[str(i)]['prenom'])
+        possibles.append(possibilites[str(i)]['nom'])
   return(possibles)
