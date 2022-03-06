@@ -2,7 +2,7 @@ import json
 
 #créer un fichier json pour la save où tout est initialisé à 0 (pas cocher)
 def init_save(theme):
-  with open(theme, 'r') as f:
+  with open("json/"+theme, 'r') as f:
     data = json.load(f)
     possibilites = data["possibilites"]
     size = len(possibilites)
