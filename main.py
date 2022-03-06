@@ -1,13 +1,14 @@
 from tkinter import *
 import tkinter as tk
-from tkinter import ttk
-from recup import *
-from PIL import Image, ImageTk
-from save import *
-import tkinter.ttk
-
-
+from tkinter import ttk, messagebox
 import time
+from PIL import Image, ImageTk
+import tkinter.ttk
+import os.path
+from recup import *
+from save import *
+
+
 def window():
     global win
     win= Tk()
@@ -27,14 +28,13 @@ def window():
 
     win.config(background='#0d6768')
 
-
-    photo = PhotoImage(file="images\logo.png")
+    photo = PhotoImage(file="images/logo.png")
     LabImg = Label(win, image=photo,bg='#0d6768')
     LabImg.pack()
 
-    Start_Button = Button(win, text= "Jouer", font=("Courrier",30,'bold'), bg='white', fg='#0d6768', width = 10,command=window_mode)
+    Start_Button = Button(win, text= "Jouer", font=("Courrier",30,'bold'), bg='white', fg='#0d6768', width = 10,command=lambda :window_mode())
     Start_Button.pack(pady=25)
-    Continue_Button = Button(win, text= "Continuer", font=("Courrier",30,'bold'),bg='white',fg='#0d6768', width = 10, command=win.destroy)
+    Continue_Button = Button(win, text= "Continuer", font=("Courrier",30,'bold'),bg='white',fg='#0d6768', width = 10, command=lambda :save_verif())
     Continue_Button.pack(pady=25)
     Leave_Button = Button(win, text= "Quitter", font=("Courrier",30,'bold'),bg='white',fg='#0d6768', width = 10, command=win.destroy)
     Leave_Button.pack(pady=25)
@@ -57,7 +57,6 @@ def window_mode():
     y_cordinate = int((screen_height/2) - (window_height/2))
 
     win_mode.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
-
 
 
     labelText = Label(win_mode, text = "Veuillez choisir votre mode de jeux", font=("Courrier",30,'bold'),bg='#0d6768')
@@ -125,7 +124,7 @@ def win_theme():
             Frame(frame_boutton, height=15, background='#0d6768').grid(row=i)
             i += 1
 
-        afficher_theme = Button(frame_boutton, text=liste_split[incr],font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda g = incr: window_game(liste[g]))
+        afficher_theme = Button(frame_boutton, text=liste_split[incr],font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda g = incr: window_game(liste[g],False))
         afficher_theme.grid(row=i, column=y)
         y += 1
         Frame(frame_boutton, width=20, background='#0d6768').grid(column=y)
@@ -137,12 +136,13 @@ def win_theme():
     win_theme.mainloop()
 
 
-def window_game(fichier):
+def window_game(fichier,save):
 
     localisation_json(fichier)
-
-    init_save("json/" + fichier)
-    win_theme.destroy()
+    if save != True:
+      init_save(fichier)
+      win_theme.destroy()
+    
     affichage_possibilite()
     win2= Tk()
     win2.resizable(False, False)
@@ -163,7 +163,6 @@ def window_game(fichier):
 
     wrapper1 = LabelFrame(win2)
 
-
     mycanvas = Canvas(wrapper1,height=500, width=1000,bg="#0d6768")
     mycanvas.pack(side=LEFT, fill="both", expand="yes")
 
@@ -176,7 +175,6 @@ def window_game(fichier):
     mycanvas.configure(yscrollcommand=yscrollbar.set)
 
 
-
     global myframe
     myframe = Frame(mycanvas,bg="#0d6768")
     mycanvas.create_window((0,0), window=myframe, anchor="nw")
@@ -187,29 +185,32 @@ def window_game(fichier):
     incr = 0
 
 
-
-
-    incr = 0
-
     for i in range (nbrCol):
         Frame(myframe,height = 50, width= 1000 / nbrCol, background='#0d6768').grid(row = 0, column=i)
 
     for i in range (nbrLi) :
-        for y in range(nbrCol):
-            if taille-1 >= i+y :
-                image = ImageTk.PhotoImage(Image.open(mes_images[incr]))
-                panel = Label(myframe, image=image)
-                panel.image = image
-
-
-
-                panel.grid(row=i, column=y)
-                panel.bind('<Button-1>', lambda event, r=i,c=y,h=image.height(),w=image.width(),nom_img=mes_images[incr],id=incr:on_click(event,r,c,h,w,nom_img,id))
-
-
-
-                incr += 1
-
+      for y in range(nbrCol):
+        if taille-1 >= i+y :
+          image = ImageTk.PhotoImage(Image.open(mes_images[incr]))
+          r=i
+          c=y
+          h=image.height()
+          w=image.width()
+          nom_img=mes_images[incr]
+          id=incr
+          
+          if save == True:
+            with open('save_file.json', 'r') as f:
+              data = json.load(f)
+              possibilites = data["possibilites"]
+              if possibilites[str(incr)] == "1":
+                crossed(r,c,h,w,nom_img,id) 
+              else:
+                notcrossed(r,c,h,w,nom_img,id)  
+          else:
+            notcrossed(r,c,h,w,nom_img,id)
+            
+          incr += 1
 
 
     Frame(win2,height = 10, width=200, background='#0d6768').grid(row = 1, column=1)
@@ -324,8 +325,6 @@ def window_game(fichier):
         frameperdu.grid(row=1,column=2)
         perdu=Label(frameperdu,text="Perdu, essaye encore !",bg="pink",font=("Courrier", 15))
         perdu.grid(padx=20,pady=20)
-
-
 
 
 
@@ -491,8 +490,6 @@ def window_game(fichier):
       triche.grid(row=0,column=3,columnspan=2, padx=5,ipady=5,ipadx=7)
 
 
-
-
     #relance une nouvelle partie
     def partie():
       global dicoperso,perd
@@ -508,35 +505,52 @@ def window_game(fichier):
 
     win2.mainloop()
 
+#affiche l'image avec une croix
+def crossed(r,c,h,w,nom_img,id):
+  global image
+  red = Image.open("images/"+"red.png")   
+  red2= red.resize((w,h), Image.ANTIALIAS)
+  image = Image.open(nom_img)
+
+  image.paste(red2,(0,0),red2)
+  image.save('red2.png',"PNG")
+  
+  photo2 = ImageTk.PhotoImage((Image.open("red2.png")).resize((w,h), Image.ANTIALIAS))
+  
+  red = tk.Label(myframe, image=photo2)
+  
+  red.image = photo2
+  red.grid(row=r,column=c)
+  red.bind('<Button-1>', lambda event, r=r,c=c,h=h,w=w,nom_img=nom_img,id=id:on_reclick(event,r,c,h,w,nom_img,id))
+
+#affiche l'image
+def notcrossed(r,c,h,w,nom_img,id):
+  image = ImageTk.PhotoImage(Image.open(nom_img))
+  panel = Label(myframe, image=image)
+  panel.image = image
+  panel.grid(row=r, column=c)
+  panel.bind('<Button-1>', lambda event, r=r,c=c,h=h,w=w,nom_img=nom_img,id=id:on_click(event,r,c,h,w,nom_img,id))
+
+#affiche une image avec une croix et change la valeur dans le save_file
 def on_click(event,r,c,h,w,nom_img,id):
-    global image
-    red = Image.open("images/"+"red.png")
-    red2= red.resize((w,h), Image.ANTIALIAS)
-    image = Image.open(nom_img)
+  crossed(r,c,h,w,nom_img,id)
+  clicked_save(id)
 
-    image.paste(red2,(0,0),red2)
-    image.save('red2.png',"PNG")
-
-    photo2 = ImageTk.PhotoImage((Image.open("red2.png")).resize((w,h), Image.ANTIALIAS))
-
-    red = tk.Label(myframe, image=photo2)
-
-    red.image = photo2
-    red.grid(row=r,column=c)
-    print("r1=",r,"  c1=",c)
-    red.bind('<Button-1>', lambda event, r=r,c=c,h=h,w=w,nom_img=nom_img,id=id:on_reclick(event,r,c,h,w,nom_img,id))
-    clicked_save(id)
-
-
+#affiche une image sans croix et change la valeur dans le save_file
 def on_reclick(event,r,c,h,w,nom_img,id):
-    image = ImageTk.PhotoImage(Image.open(nom_img))
-    panel = Label(myframe, image=image)
-    panel.image = image
-    panel.grid(row=r, column=c)
-    panel.bind('<Button-1>', lambda event, r=r,c=c,h=h,w=w,nom_img=nom_img,id=id:on_click(event,r,c,h,w,nom_img,id))
-    reclicked_save(id)
+  notcrossed(r,c,h,w,nom_img,id)
+  reclicked_save(id)
 
-
+#vérifie si le fichier save_file existe, et si c'est le cas lance directement la partie
+def save_verif():
+  if os.path.isfile('save_file.json'):
+    with open('save_file.json', 'r') as f:
+      data = json.load(f)
+      theme = data['theme']
+      win.destroy()
+      window_game(theme,True)
+  else:
+    messagebox.showerror("Error Example", "Aucune sauvegarde")
 
 window()
 

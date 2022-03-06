@@ -1,8 +1,8 @@
 from tkinter import *
 import tkinter as tk
+from PIL import Image, ImageTk
 import json
 import os
-from PIL import ImageTk
 import random
 
 mes_images = []
@@ -27,6 +27,7 @@ def affichage_possibilite():
         my_img = "images_theme/" + data["images"] + perso["fichier"]
         mes_images.append(my_img)
         mes_perso.append(perso["nom"])
+      
 def recup_keys(): #retourne la liste des keys qui décrivent les perso: exemple: ['fichier', 'nom', 'genre', 'cheveux', 'lunettes', 'chauve']
   with open("json/" + fichier, 'r',encoding='utf-8') as f:
     data = json.load(f)
