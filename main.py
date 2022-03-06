@@ -401,9 +401,9 @@ def window_game(fichier,save):
         non = Button(framesuite, text="NON",command=NON)
         non.grid(row=2, column=3, pady=10, padx=5)
         if val.get()==1:
-          personne=listepersonne()
+          personne=liste_id_nom(listepersonne())
           if t=="TRUE":
-            personne=complementliste(personne)
+            personne=liste_id_nom(complementliste(personne))
           print(personne, "     personne à éliminer")
 
           labeltriche=Label(framereponse,font=("Courrier", 12),
