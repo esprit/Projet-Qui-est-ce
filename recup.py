@@ -18,6 +18,7 @@ def liste_json():
     return liste
 
 def affichage_possibilite():
+    global mes_perso
     mes_perso = []
     with open("json/" + fichier, 'r',encoding='utf-8') as f:
         data = json.load(f)
@@ -27,7 +28,7 @@ def affichage_possibilite():
         my_img = "images_theme/" + data["images"] + perso["fichier"]
         mes_images.append(my_img)
         mes_perso.append(perso["nom"])
-      
+
 def recup_keys(): #retourne la liste des keys qui décrivent les perso: exemple: ['fichier', 'nom', 'genre', 'cheveux', 'lunettes', 'chauve']
   with open("json/" + fichier, 'r',encoding='utf-8') as f:
     data = json.load(f)
@@ -51,6 +52,13 @@ def randompersonnage ():
     infoPerso = possibilites[str(r)]
     return(infoPerso)
 
+def liste_id_nom(liste_nom):
+    liste_id = []
+    for i in range (len(mes_perso)):
+        for y in range (len(liste_nom)):
+            if liste_nom[y] == mes_perso[i]:
+                liste_id.append(i)
+    return liste_id
 
 
 def nbrColonne():
