@@ -1,7 +1,6 @@
 from tkinter import *
 import tkinter as tk
 from tkinter import ttk, messagebox
-import time
 from PIL import Image, ImageTk
 import tkinter.ttk
 import os.path
@@ -142,7 +141,7 @@ def window_game(fichier,save):
     if save != True:
       init_save(fichier)
       win_theme.destroy()
-    
+
     affichage_possibilite()
     win2= Tk()
     win2.resizable(False, False)
@@ -201,18 +200,18 @@ def window_game(fichier,save):
           w=image.width()
           nom_img=mes_images[incr]
           id=incr
-          
+
           if save == True:
             with open('save_file.json', 'r') as f:
               data = json.load(f)
               possibilites = data["possibilites"]
               if possibilites[str(incr)] == "1":
-                crossed(r,c,h,w,nom_img,id) 
+                crossed(r,c,h,w,nom_img,id)
               else:
-                notcrossed(r,c,h,w,nom_img,id)  
+                notcrossed(r,c,h,w,nom_img,id)
           else:
             notcrossed(r,c,h,w,nom_img,id)
-            
+
           incr += 1
 
     Frame(win2,height = 10, width=200, background='#0d6768').grid(row = 1, column=1)
@@ -512,17 +511,17 @@ def window_game(fichier,save):
 #affiche l'image avec une croix
 def crossed(r,c,h,w,nom_img,id):
   global image
-  red = Image.open("images/"+"red.png")   
+  red = Image.open("images/"+"red.png")
   red2= red.resize((w,h), Image.ANTIALIAS)
   image = Image.open(nom_img)
 
   image.paste(red2,(0,0),red2)
   image.save('red2.png',"PNG")
-  
+
   photo2 = ImageTk.PhotoImage((Image.open("red2.png")).resize((w,h), Image.ANTIALIAS))
-  
+
   red = tk.Label(myframe, image=photo2)
-  
+
   red.image = photo2
   red.grid(row=r,column=c)
   red.bind('<Button-1>', lambda event, r=r,c=c,h=h,w=w,nom_img=nom_img,id=id:on_reclick(event,r,c,h,w,nom_img,id))
@@ -546,7 +545,7 @@ def on_reclick(event,r,c,h,w,nom_img,id):
   reclicked_save(id)
 
 def crossed_cheat(fichier,Liste_id):
-  
+
   for i in range(len(Liste_id)):
     id = Liste_id[i]
     image = ImageTk.PhotoImage(Image.open(mes_images[id]))
@@ -557,7 +556,7 @@ def crossed_cheat(fichier,Liste_id):
     r = position[0]
     c = position[1]
     crossed(r,c,h,w,nom_img,id)
-  
+
 #vérifie si le fichier save_file existe, et si c'est le cas lance directement la partie
 def save_verif():
   if os.path.isfile('save_file.json'):
