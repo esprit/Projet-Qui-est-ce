@@ -403,12 +403,12 @@ def window_game(fichier,save):
         non = Button(framesuite, text="NON",command=NON)
         non.grid(row=2, column=3, pady=10, padx=5)
         if val.get()==1:
-          personne=liste_id_nom(listepersonne())
+          personne=listepersonne()
           if t=="TRUE":
-            personne=liste_id_nom(complementliste(personne))
+            personne=complementliste(personne)
           #ici
-          crossed_cheat(fichier,personne)
-          print(personne, "     personne éliminé")
+          crossed_cheat(fichier,liste_id_nom(personne))
+          print(liste_id_nom(personne), "     personne éliminé")
 
           labeltriche=Label(framereponse,font=("Courrier", 12),
                                 bg="pink",
