@@ -314,8 +314,8 @@ def window_game(fichier,save):
         labelbravo.grid(columnspan=2,ipadx=20,ipady=20)
 
 
-        recommencer=Button(framebravo,text="Recommencer",command= lambda : partie())
-        recommencer.grid(row=2,pady=5)
+        #recommencer=Button(framebravo,text="Recommencer",command= lambda : partie())
+        #recommencer.grid(row=2,pady=5)
 
         quitter=Button(framebravo,text="Quitter",command=win2.destroy)
         quitter.grid(row=2,column=1,pady=5)
@@ -324,7 +324,7 @@ def window_game(fichier,save):
         NON()
         perd=1
         frameperdu=Frame(myframe_box,bg="pink",relief=RAISED,bd=3)
-        frameperdu.grid(row=1,column=2)
+        frameperdu.grid(row=4,column=2, sticky = E)
         perdu=Label(frameperdu,text="Perdu, essaye encore !",bg="pink",font=("Courrier", 15))
         perdu.grid(padx=20,pady=20)
 
