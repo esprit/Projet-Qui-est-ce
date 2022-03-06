@@ -312,8 +312,8 @@ def window_game(fichier,save):
         labelbravo.grid(columnspan=2,ipadx=20,ipady=20)
 
 
-        recommencer=Button(framebravo,text="Recommencer",command= lambda : partie())
-        recommencer.grid(row=2,pady=5)
+        #recommencer=Button(framebravo,text="Recommencer",command= lambda : partie())
+        #recommencer.grid(row=2,pady=5)
 
         quitter=Button(framebravo,text="Quitter",command=win2.destroy)
         quitter.grid(row=2,column=1,pady=5)
