@@ -184,12 +184,15 @@ def window_game(fichier,save):
     nbrLi = int(nbrLigne())
     incr = 0
 
-
+    global Liste_pos
+    Liste_pos = []
     for i in range (nbrCol):
         Frame(myframe,height = 50, width= 1000 / nbrCol, background='#0d6768').grid(row = 0, column=i)
 
     for i in range (nbrLi) :
       for y in range(nbrCol):
+        pos = [i,y]
+        Liste_pos.append(pos)
         if taille-1 >= i+y :
           image = ImageTk.PhotoImage(Image.open(mes_images[incr]))
           r=i
@@ -211,7 +214,6 @@ def window_game(fichier,save):
             notcrossed(r,c,h,w,nom_img,id)
             
           incr += 1
-
 
     Frame(win2,height = 10, width=200, background='#0d6768').grid(row = 1, column=1)
     wrapper1.grid(row= 2, column = 2)
@@ -312,8 +314,8 @@ def window_game(fichier,save):
         labelbravo.grid(columnspan=2,ipadx=20,ipady=20)
 
 
-        #recommencer=Button(framebravo,text="Recommencer",command= lambda : partie())
-        #recommencer.grid(row=2,pady=5)
+        recommencer=Button(framebravo,text="Recommencer",command= lambda : partie())
+        recommencer.grid(row=2,pady=5)
 
         quitter=Button(framebravo,text="Quitter",command=win2.destroy)
         quitter.grid(row=2,column=1,pady=5)
@@ -404,7 +406,9 @@ def window_game(fichier,save):
           personne=liste_id_nom(listepersonne())
           if t=="TRUE":
             personne=liste_id_nom(complementliste(personne))
-          print(personne, "     personne à éliminer")
+          #ici
+          crossed_cheat(fichier,personne)
+          print(personne, "     personne éliminé")
 
           labeltriche=Label(framereponse,font=("Courrier", 12),
                                 bg="pink",
@@ -541,6 +545,19 @@ def on_reclick(event,r,c,h,w,nom_img,id):
   notcrossed(r,c,h,w,nom_img,id)
   reclicked_save(id)
 
+def crossed_cheat(fichier,Liste_id):
+  
+  for i in range(len(Liste_id)):
+    id = Liste_id[i]
+    image = ImageTk.PhotoImage(Image.open(mes_images[id]))
+    h=image.height()
+    w=image.width()
+    nom_img=mes_images[id]
+    position = Liste_pos[id]
+    r = position[0]
+    c = position[1]
+    crossed(r,c,h,w,nom_img,id)
+  
 #vérifie si le fichier save_file existe, et si c'est le cas lance directement la partie
 def save_verif():
   if os.path.isfile('save_file.json'):
