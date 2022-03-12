@@ -45,9 +45,60 @@ def action3(event):
     cbPlusValeurs.set(":):)")
     cbPlusValeurs.bind("<<ComboboxSelected>>", getvaleur)
 
+def enlevedouble(liste):
+ 
+  l=[]
+  i=0
+  while i<=len(liste)-1:
+    if liste[i] not in l:
+      l.append(liste[i])
+    i=i+1
+  print(l,"l")
+  return l
+
+
+  
+  #renvoie la liste des personnes qui vérifient les choix
+def listepersonne():
+  global choixliste
+  liste=choixliste
+
+  l1=[]
+  if liste!=[]:
+    l1=creerliste(liste[0],liste[1])
+    print(l1,"l1 premier")
+    del liste[0:2]
+  l3=[]
+  while liste != []:
+            l2=creerliste(liste[0],liste[1])
+            print (l2,"l2 debut")
+            if connecteur=="ET":
+              for i in range (len(l2)):
+                if l2[i] in l1:
+                  l3.append(l2[i])
+              l1=l3
+            elif connecteur=="OU":
+              for i in range (len(l2)):
+                if l2[i] not in l1:
+                  l1.append(l2[i])
+            del liste[0:2]
+  l1=enlevedouble(l1)
+  return(l1)
+
+  
+#renvoie le complement des prenoms de liste
+def complementliste(liste):
+    
+    l=tri_keys('nom')
+    for i in range (len(liste)):
+      if liste[i] in l:
+        l.remove(liste[i])
+    return(l)
+
+  
 #ouvre les choix des prochains critères
 def OuvreChoix():  
-    global cbPlusChoix, line, choixliste, cbPlusValeurs,frameMain
+    global cbPlusChoix, line, cbPlusValeurs,frameMain
     cbPlusChoix = tkinter.ttk.Combobox(frameMain, state="readonly", values=l)
     cbPlusValeurs = tkinter.ttk.Combobox(frameMain, state="readonly")
     cbPlusChoix.set("choix")
@@ -58,26 +109,28 @@ def OuvreChoix():
 
 
 #vérification des valeurs saisies par rapport aux valeurs à trouver
-def verif():
-    global connecteur, dicoperso, choixliste
+def verif(liste):
+    global connecteur, dicoperso
     
-    liste=choixliste
     if connecteur == "":
         if liste != [] and dicoperso[liste[0]] ==liste[1]:
             return ("TRUE")
         else:
             return ("FALSE")
     elif connecteur == "ET":
-        while liste != []:
-            if dicoperso[liste[0]] == liste[1]:
-                del liste[0:2]
+        i=0
+        while i<=len(liste)-1:
+            if dicoperso[liste[i]] == liste[i+1]:
+                i=i+2
             else:
                 return ("FALSE")
+       
         return ("TRUE")
     elif connecteur == "OU":
-        while liste != []:
-            if dicoperso[liste[0]] != liste[1]:
-                del liste[0:2]
+        i=0
+        while i<=len(liste)-1:
+            if dicoperso[liste[i]] != liste[i+1]:
+                i=i+2
             else:
                 return ("TRUE")
         return ("FALSE")
@@ -133,44 +186,14 @@ def OUI():
 
 
   
-  #renvoie la liste des personnes qui vérifient les choix
-def listepersonne():
-  liste=choixliste
-  l1=[]
-  if liste!=[]:
-    l1=creerliste(liste[0],liste[1])
-    del liste[0:2]
-  l3=[]
-  while liste != []:
-            l2=creerliste(liste[0],liste[1])
-            if connecteur=="ET":
-              for i in range (len(l2)-1):
-                if l2[i] in l1:
-                  l3.append(l2[i])
-              l1=l3
-            elif connecteur=="OU":
-              for i in range (len(l2)-1):
-                if l2[i] not in l1:
-                  l1.append(l2[i])
-            del liste[0:2]
-  return(l1)
 
-  
-#renvoie le complement des prenoms de liste
-def complementliste(liste):
-    
-    l=tri_keys('nom')
-    for i in range (len(liste)):
-      if liste[i] in l:
-        l.remove(liste[i])
-    return(l)
   
   
   
 #affichage vrai test sur la deuxieme frame
 def vraitest():
-  global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu
-  t=verif()
+  global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu,choixliste
+  t=verif(choixliste)
   if  test:
     label_reponse = Label(framereponse,
                             font=("Courrier", 12),
@@ -190,13 +213,14 @@ def vraitest():
     non.grid(row=2, column=3, pady=10, padx=5)
     if val.get()==1:
       personne=listepersonne()
+      print( personne, "avant complement")
       if t=="TRUE":
         personne=complementliste(personne)
+        print(personne,"vraichoix")
       print(personne, "     personne à éliminer")
-      
       labeltriche=Label(framereponse,font=("Courrier", 12),
                             bg="pink",
-                            text= str(len(personne))+" image(s) à cocher")
+                            text= str(len(personne))+" personnages à éliminer")
       labeltriche.grid(row=3, column=0, pady=10, padx=5)
   else:
     print("fais ton choix :)")
@@ -290,7 +314,7 @@ def partie():
   win_game.config(background='paleturquoise')
   dicoperso = randompersonnage()  #choix du personnage
   perd=0
-  print(dicoperso)
+  #print(dicoperso)
   question()
 
 
