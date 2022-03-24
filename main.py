@@ -83,7 +83,7 @@ def window_mode():
     frame_boutton.pack( pady = 70)
     win_mode.mainloop()
 
-def win_theme():
+def win_theme(mode):
     win_mode.destroy()
     global win_theme
     win_theme= Tk()
@@ -217,8 +217,14 @@ def window_game(fichier,save):
     Frame(win2,height = 10, width=200, background='#0d6768').grid(row = 1, column=1)
     wrapper1.grid(row= 2, column = 2)
     Frame(win2, width=200, background='#0d6768').grid(row = 1, column=3)
-    myframe_box = Frame(win2,bg="#0d6768").grid(row= 3, column = 2)
+
+    myframe_box = Frame(win2).grid(row= 3, column = 2)
+
+
+
+
         #Saisie le choix de la première question + la grise
+    #Saisie le choix de la première question + la grise
     def getchoix(event):
         global test, choixliste
         choixliste.append(str(cb1.get()))
@@ -259,9 +265,60 @@ def window_game(fichier,save):
         cbPlusValeurs.set(":):)")
         cbPlusValeurs.bind("<<ComboboxSelected>>", getvaleur)
 
+    def enlevedouble(liste):
+
+      l=[]
+      i=0
+      while i<=len(liste)-1:
+        if liste[i] not in l:
+          l.append(liste[i])
+        i=i+1
+      print(l,"l")
+      return l
+
+
+
+      #renvoie la liste des personnes qui vérifient les choix
+    def listepersonne():
+      global choixliste
+      liste=choixliste
+
+      l1=[]
+      if liste!=[]:
+        l1=creerliste(liste[0],liste[1])
+        print(l1,"l1 premier")
+        del liste[0:2]
+      l3=[]
+      while liste != []:
+                l2=creerliste(liste[0],liste[1])
+                print (l2,"l2 debut")
+                if connecteur=="ET":
+                  for i in range (len(l2)):
+                    if l2[i] in l1:
+                      l3.append(l2[i])
+                  l1=l3
+                elif connecteur=="OU":
+                  for i in range (len(l2)):
+                    if l2[i] not in l1:
+                      l1.append(l2[i])
+                del liste[0:2]
+      l1=enlevedouble(l1)
+      return(l1)
+
+
+    #renvoie le complement des prenoms de liste
+    def complementliste(liste):
+
+        l=tri_keys('nom')
+        for i in range (len(liste)):
+          if liste[i] in l:
+            l.remove(liste[i])
+        return(l)
+
+
     #ouvre les choix des prochains critères
     def OuvreChoix():
-        global cbPlusChoix, line, choixliste, cbPlusValeurs,frameMain
+        global cbPlusChoix, line, cbPlusValeurs,frameMain
         cbPlusChoix = tkinter.ttk.Combobox(frameMain, state="readonly", values=l)
         cbPlusValeurs = tkinter.ttk.Combobox(frameMain, state="readonly")
         cbPlusChoix.set("choix")
@@ -272,26 +329,28 @@ def window_game(fichier,save):
 
 
     #vérification des valeurs saisies par rapport aux valeurs à trouver
-    def verif():
-        global connecteur, dicoperso, choixliste
+    def verif(liste):
+        global connecteur, dicoperso
 
-        liste=choixliste
         if connecteur == "":
             if liste != [] and dicoperso[liste[0]] ==liste[1]:
                 return ("TRUE")
             else:
                 return ("FALSE")
         elif connecteur == "ET":
-            while liste != []:
-                if dicoperso[liste[0]] == liste[1]:
-                    del liste[0:2]
+            i=0
+            while i<=len(liste)-1:
+                if dicoperso[liste[i]] == liste[i+1]:
+                    i=i+2
                 else:
                     return ("FALSE")
+
             return ("TRUE")
         elif connecteur == "OU":
-            while liste != []:
-                if dicoperso[liste[0]] != liste[1]:
-                    del liste[0:2]
+            i=0
+            while i<=len(liste)-1:
+                if dicoperso[liste[i]] != liste[i+1]:
+                    i=i+2
                 else:
                     return ("TRUE")
             return ("FALSE")
@@ -304,17 +363,16 @@ def window_game(fichier,save):
       if dicoperso["nom"]==perso:
         frameMain.destroy()
         framereponse.destroy()
-        framebravo=Frame(myframe_box,bg="pink",relief=RAISED,bd=3)
+        framebravo=Frame(myframe_box,bg="DarkTurquoise",relief=RAISED,bd=3)
         labelbravo=Label(framebravo,
                               font=("Courrier", 26),
-                              bg="pink",
+                              bg="DarkTurquoise",
                               text=" BRAVO c'est bien  " + perso)
         framebravo.grid(row = 3, column = 2)
         labelbravo.grid(columnspan=2,ipadx=20,ipady=20)
 
-
-        #recommencer=Button(framebravo,text="Recommencer",command= lambda : partie())
-        #recommencer.grid(row=2,pady=5)
+        recommencer=Button(framebravo,text="Recommencer",command=partie)
+        recommencer.grid(row=2,pady=5)
 
         quitter=Button(framebravo,text="Quitter",command=win2.destroy)
         quitter.grid(row=2,column=1,pady=5)
@@ -322,10 +380,12 @@ def window_game(fichier,save):
       else:
         NON()
         perd=1
-        frameperdu=Frame(myframe_box,bg="pink",relief=RAISED,bd=3)
-        frameperdu.grid(row=4,column=2, sticky = E)
-        perdu=Label(frameperdu,text="Perdu, essaye encore !",bg="pink",font=("Courrier", 15))
+        frameperdu=Frame(myframe_box,bg="DarkTurquoise",relief=RAISED,bd=3)
+        frameperdu.grid(row=1,column=2)
+        perdu=Label(frameperdu,text="Perdu, essaye encore !",bg="DarkTurquoise",font=("Courrier", 15))
         perdu.grid(padx=20,pady=20)
+
+
 
 
 
@@ -346,54 +406,24 @@ def window_game(fichier,save):
 
 
 
-      #renvoie la liste des personnes qui vérifient les choix
-    def listepersonne():
-      liste=choixliste
-      l1=[]
-      if liste!=[]:
-        l1=creerliste(liste[0],liste[1])
-        del liste[0:2]
-      l3=[]
-      while liste != []:
-                l2=creerliste(liste[0],liste[1])
-                if connecteur=="ET":
-                  for i in range (len(l2)-1):
-                    if l2[i] in l1:
-                      l3.append(l2[i])
-                  l1=l3
-                elif connecteur=="OU":
-                  for i in range (len(l2)-1):
-                    if l2[i] not in l1:
-                      l1.append(l2[i])
-                del liste[0:2]
-      return(l1)
 
-
-    #renvoie le complement des prenoms de liste
-    def complementliste(liste):
-
-        l=tri_keys('nom')
-        for i in range (len(liste)):
-          if liste[i] in l:
-            l.remove(liste[i])
-        return(l)
 
 
 
     #affichage vrai test sur la deuxieme frame
     def vraitest():
-      global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu
-      t=verif()
+      global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu,choixliste
+      t=verif(choixliste)
       if  test:
         label_reponse = Label(framereponse,
                                 font=("Courrier", 12),
-                                bg="pink",
+                                bg="DarkTurquoise",
                                 text=" La réponse est " + t)
         label_reponse.grid(columnspan=5, pady=20, padx=10)
-        framesuite = Frame(framereponse, relief=GROOVE, bg="pink", bd=4)
+        framesuite = Frame(framereponse, relief=GROOVE, bg="DarkTurquoise", bd=4)
         framesuite.grid(row=1, column=0, padx=10,pady=10)
         label_perso=Label(framesuite,font=("Courrier", 12),
-                                bg="pink",
+                                bg="DarkTurquoise",
                                 text="M'avez-vous trouvé?")
         label_perso.grid(columnspan=5, pady=10, padx=50)
         oui = Button(framesuite, text="OUI",command=OUI)
@@ -403,15 +433,15 @@ def window_game(fichier,save):
         non.grid(row=2, column=3, pady=10, padx=5)
         if val.get()==1:
           personne=listepersonne()
+          print( personne, "avant complement")
           if t=="TRUE":
             personne=complementliste(personne)
-          #ici
+            print(personne,"vraichoix")
+          print(personne, "     personne à éliminer")
           crossed_cheat(fichier,liste_id_nom(personne))
-          print(liste_id_nom(personne), "     personne éliminé")
-
           labeltriche=Label(framereponse,font=("Courrier", 12),
-                                bg="pink",
-                                text= str(len(personne))+" image(s) à cocher")
+                                bg="DarkTurquoise",
+                                text= str(len(personne))+" personnages à éliminer")
           labeltriche.grid(row=3, column=0, pady=10, padx=5)
       else:
         print("fais ton choix :)")
@@ -468,12 +498,15 @@ def window_game(fichier,save):
       cb1.grid(row=1, columnspan=2,column=2, pady=15, padx=5)
       connecteur = ""  #choix du et, ou ,rien
 
-      frameMain.grid(row=4, column=2, padx=10, sticky = W)
+
+      Frame(myframe_box, height=250, bg="#0d6768").grid(row = 4, column=2)
+
+      frameMain.grid(row=4, column=2, padx=100, sticky = W)
       frameConnect.grid(row=2, columnspan=2, padx=0)
 
 
-      framereponse = Frame(myframe_box, relief=RAISED, bg="pink", bd=4)
-      framereponse.grid(row=4, column=2, padx=10, sticky = E)
+      framereponse = Frame(myframe_box, relief=RAISED, bg="DarkTurquoise", bd=4)
+      framereponse.grid(row=4, column=2, padx=100, sticky = E)
 
       annuler = Button(frameMain, text="annuler", command=NON)
       annuler.grid(row=2, column=0,pady=15, padx=5)
@@ -493,12 +526,15 @@ def window_game(fichier,save):
       triche.grid(row=0,column=3,columnspan=2, padx=5,ipady=5,ipadx=7)
 
 
+
+
     #relance une nouvelle partie
     def partie():
       global dicoperso,perd
+
       dicoperso = randompersonnage()  #choix du personnage
       perd=0
-      print(dicoperso)
+      #print(dicoperso)
       question()
 
 
@@ -507,6 +543,8 @@ def window_game(fichier,save):
 
 
     win2.mainloop()
+
+
 
 #affiche l'image avec une croix
 def crossed(r,c,h,w,nom_img,id):
