@@ -93,3 +93,53 @@ def creerliste(caract,valeur):
       if possibilites[str(i)][caract]==valeur :
         possibles.append(possibilites[str(i)]['nom'])
   return(possibles)
+
+def creerlisteId(caract,valeur):
+  with open("json/" + fichier, 'r',encoding='utf-8') as f:
+    data = json.load(f)
+    possibilites = data["possibilites"]
+    possibles=[]
+    for i in range(len(possibilites)):
+      if possibilites[str(i)][caract]==valeur :
+        possibles.append(str(i))
+  return(possibles)
+
+def ia_opti():
+  with open("save_file.json", 'r') as f:
+    data = json.load(f)
+    bd_ia = data["ia"]
+    keys = list(bd_ia) #liste des arguments (keys)
+    max=["","",0,[]]
+    trouve = data["trouve"]
+    for i in range(0,len(keys),1):
+      arg_ia = keys[i] #argument
+      val = bd_ia[arg_ia] #liste valeurs argument
+      for j in range(len(val)):
+        val_ia = val[j] #valeur argument
+        l_id = creerlisteId(arg_ia,val[j]) #liste des personnes avec les caractéristiques correspondantes
+        compteur = len(l_id)
+        for k in range(len(l_id)):
+          if l_id[k] in trouve:
+            compteur -= 1
+        if compteur>max[2]: 
+          max[0]=arg_ia
+          max[1]=val_ia
+          max[2]=compteur
+          max[3]=l_id
+  t = max[3]
+  for i in range(len(t)):
+    if t[i] not in trouve:
+      trouve.append(t[i])
+  data["trouve"] = trouve  
+  with open("save_file.json", "w") as outfile:
+    json.dump(data, outfile)
+    
+  return(max) #max[argument,valeur,nbr_occurence,liste_perso_correspondant]
+
+#rempli la liste "trouve" avec les perso à enlever
+def ia_find(Liste_id):
+  with open('save_file.json', 'r') as f:
+    data_save = json.load(f)
+    trouve = data_save["trouve"]
+    for i in range(len(Liste_id)):
+      trouve.append(Liste_id(i))

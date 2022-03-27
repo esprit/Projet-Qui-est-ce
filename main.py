@@ -136,11 +136,17 @@ def win_theme(mode):
 
 
 def window_game(fichier,save):
-
+    global mode
+    mode = gmode
     localisation_json(fichier)
     if save != True:
-      init_save(fichier)
+      init_save(fichier,mode)
       win_theme.destroy()
+    if mode==2:
+      bd_ia(fichier)
+    affichage_possibilite()
+    
+    #print(creerlisteId("genre","homme"))
 
     affichage_possibilite()
     win2= Tk()
@@ -527,7 +533,6 @@ def window_game(fichier,save):
 
 
 
-
     #relance une nouvelle partie
     def partie():
       global dicoperso,perd
@@ -544,7 +549,13 @@ def window_game(fichier,save):
 
     win2.mainloop()
 
-
+#pose une question random
+#def random_ia():
+  #arg = liste des arguments
+  #q1 = randint(2,len(arg))
+  #val= liste des valeurs de q1 (un argument choisis aléatoirement) 
+  #verifier si la reponse est juste ou non
+  #retirer des perso en fonction de la réponse
 
 #affiche l'image avec une croix
 def crossed(r,c,h,w,nom_img,id):
@@ -563,7 +574,8 @@ def crossed(r,c,h,w,nom_img,id):
   red.image = photo2
   red.grid(row=r,column=c)
   red.bind('<Button-1>', lambda event, r=r,c=c,h=h,w=w,nom_img=nom_img,id=id:on_reclick(event,r,c,h,w,nom_img,id))
-
+  clicked_save(id)
+  
 #affiche l'image
 def notcrossed(r,c,h,w,nom_img,id):
   image = ImageTk.PhotoImage(Image.open(nom_img))
@@ -572,6 +584,7 @@ def notcrossed(r,c,h,w,nom_img,id):
   panel.grid(row=r, column=c)
   panel.bind('<Button-1>', lambda event, r=r,c=c,h=h,w=w,nom_img=nom_img,id=id:on_click(event,r,c,h,w,nom_img,id))
 
+  
 #affiche une image avec une croix et change la valeur dans le save_file
 def on_click(event,r,c,h,w,nom_img,id):
   crossed(r,c,h,w,nom_img,id)
