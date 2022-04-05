@@ -66,7 +66,7 @@ def window_mode():
     image_1 = PhotoImage(file='images/player.png')
     img1_label = Label(image=image_1)
 
-    mode_1 = Button(frame_boutton, image=image_1, command=win_theme, borderwidth=0,bg='#0d6768')
+    mode_1 = Button(frame_boutton, image=image_1, borderwidth=0,bg='#0d6768', command=lambda :win_theme(1))
     mode_1.grid(row=0, column=1)
     label1 = Label(frame_boutton, text = "Classique", font=("Courrier",30,'bold'),bg='#0d6768')
     label1.grid(row=1, column=1 )
@@ -76,7 +76,7 @@ def window_mode():
     image_2 = PhotoImage(file='images/playervsia.png')
     img2_label = Label(image=image_2)
 
-    mode_2 = Button(frame_boutton, image=image_2 , command=win_theme, borderwidth=0,bg='#0d6768')
+    mode_2 = Button(frame_boutton, image=image_2 , borderwidth=0,bg='#0d6768', command=lambda :win_theme(2))
     mode_2.grid(row=0,column=3)
     label2 = Label(frame_boutton, text = "Joueur vs IA", font=("Courrier",30,'bold'),bg='#0d6768')
     label2.grid(row=1, column=3)
@@ -84,6 +84,7 @@ def window_mode():
     win_mode.mainloop()
 
 def win_theme(mode):
+    
     win_mode.destroy()
     global win_theme
     win_theme= Tk()
@@ -123,7 +124,7 @@ def win_theme(mode):
             Frame(frame_boutton, height=15, background='#0d6768').grid(row=i)
             i += 1
 
-        afficher_theme = Button(frame_boutton, text=liste_split[incr],font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda g = incr: window_game(liste[g],False))
+        afficher_theme = Button(frame_boutton, text=liste_split[incr],font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda g = incr: window_game(liste[g],False,mode))
         afficher_theme.grid(row=i, column=y)
         y += 1
         Frame(frame_boutton, width=20, background='#0d6768').grid(column=y)
@@ -135,9 +136,8 @@ def win_theme(mode):
     win_theme.mainloop()
 
 
-def window_game(fichier,save):
-    global mode
-    mode = gmode
+def window_game(fichier,save,mode):
+    
     localisation_json(fichier)
     if save != True:
       init_save(fichier,mode)
@@ -614,8 +614,9 @@ def save_verif():
     with open('save_file.json', 'r') as f:
       data = json.load(f)
       theme = data['theme']
+      mode = data['mode']
       win.destroy()
-      window_game(theme,True)
+      window_game(theme,True,mode)
   else:
     messagebox.showerror("Error Example", "Aucune sauvegarde")
 
