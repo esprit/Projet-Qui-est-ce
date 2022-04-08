@@ -76,16 +76,55 @@ def window_mode():
     image_2 = PhotoImage(file='images/playervsia.png')
     img2_label = Label(image=image_2)
 
-    mode_2 = Button(frame_boutton, image=image_2 , borderwidth=0,bg='#0d6768', command=lambda :win_theme(2))
+    mode_2 = Button(frame_boutton, image=image_2 , borderwidth=0,bg='#0d6768', command=lambda :window_dif())
     mode_2.grid(row=0,column=3)
     label2 = Label(frame_boutton, text = "Joueur vs IA", font=("Courrier",30,'bold'),bg='#0d6768')
     label2.grid(row=1, column=3)
     frame_boutton.pack( pady = 70)
     win_mode.mainloop()
+def window_dif():
+    win_mode.destroy()
+    global win_dif
+    win_dif= Tk()
+    win_dif.resizable(False, False)
+    win_dif.config(background='#0d6768')
+
+    window_height = 900
+    window_width = 1400
+
+    screen_width = win_dif.winfo_screenwidth()
+    screen_height = win_dif.winfo_screenheight()
+
+    x_cordinate = int((screen_width/2) - (window_width/2))
+    y_cordinate = int((screen_height/2) - (window_height/2))
+
+    win_dif.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+
+
+    labelText = Label(win_dif, text = "Veuillez choisir votre niveau de difficulté", font=("Courrier",30,'bold'),bg='#0d6768')
+    labelText.pack(pady = 40)
+
+    frame_boutton_dif = Frame(win_dif, bg = "#0d6768")
+
+    dif1 = Button(frame_boutton_dif, text="Niveau 1",font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda : win_theme(2))
+    dif1.grid(row=1, column=1)
+
+    dif2 = Button(frame_boutton_dif, text="Niveau 2",font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda : win_theme(2))
+    dif2.grid(row=1, column=2)
+
+    dif2 = Button(frame_boutton_dif, text="Niveau 3",font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda : win_theme(2))
+    dif2.grid(row=1, column=3)
+
+    frame_boutton_dif.pack( pady = 70)
+
+    win_dif.mainloop()
 
 def win_theme(mode):
-    
-    win_mode.destroy()
+    if mode == 2:
+        win_dif.destroy()
+    else:
+        win_mode.destroy()
+
     global win_theme
     win_theme= Tk()
     win_theme.resizable(False, False)
@@ -137,7 +176,7 @@ def win_theme(mode):
 
 
 def window_game(fichier,save,mode):
-    
+
     localisation_json(fichier)
     if save != True:
       init_save(fichier,mode)
@@ -145,7 +184,7 @@ def window_game(fichier,save,mode):
     if mode==2:
       bd_ia(fichier)
     affichage_possibilite()
-    
+
     #print(creerlisteId("genre","homme"))
 
     affichage_possibilite()
@@ -364,7 +403,7 @@ def window_game(fichier,save,mode):
 
     #vérification après selection du prenom
     def OK(event):
-      global frameperdu,perd
+      global frameperdu,perd,perso
       perso = cbprenom.get()
       if dicoperso["nom"]==perso:
         frameMain.destroy()
@@ -546,14 +585,14 @@ def window_game(fichier,save,mode):
      #initialise la partie au premier lancement du programme
     partie()
 
-
+    print(dicoperso)
     win2.mainloop()
 
 #pose une question random
 #def random_ia():
   #arg = liste des arguments
   #q1 = randint(2,len(arg))
-  #val= liste des valeurs de q1 (un argument choisis aléatoirement) 
+  #val= liste des valeurs de q1 (un argument choisis aléatoirement)
   #verifier si la reponse est juste ou non
   #retirer des perso en fonction de la réponse
 
@@ -575,7 +614,7 @@ def crossed(r,c,h,w,nom_img,id):
   red.grid(row=r,column=c)
   red.bind('<Button-1>', lambda event, r=r,c=c,h=h,w=w,nom_img=nom_img,id=id:on_reclick(event,r,c,h,w,nom_img,id))
   clicked_save(id)
-  
+
 #affiche l'image
 def notcrossed(r,c,h,w,nom_img,id):
   image = ImageTk.PhotoImage(Image.open(nom_img))
@@ -584,7 +623,7 @@ def notcrossed(r,c,h,w,nom_img,id):
   panel.grid(row=r, column=c)
   panel.bind('<Button-1>', lambda event, r=r,c=c,h=h,w=w,nom_img=nom_img,id=id:on_click(event,r,c,h,w,nom_img,id))
 
-  
+
 #affiche une image avec une croix et change la valeur dans le save_file
 def on_click(event,r,c,h,w,nom_img,id):
   crossed(r,c,h,w,nom_img,id)
