@@ -66,7 +66,7 @@ def window_mode():
     image_1 = PhotoImage(file='images/player.png')
     img1_label = Label(image=image_1)
 
-    mode_1 = Button(frame_boutton, image=image_1, borderwidth=0,bg='#0d6768', command=lambda :win_theme(1))
+    mode_1 = Button(frame_boutton, image=image_1, borderwidth=0,bg='#0d6768', command=lambda :win_theme([1,0]))
     mode_1.grid(row=0, column=1)
     label1 = Label(frame_boutton, text = "Classique", font=("Courrier",30,'bold'),bg='#0d6768')
     label1.grid(row=1, column=1 )
@@ -106,13 +106,13 @@ def window_dif():
 
     frame_boutton_dif = Frame(win_dif, bg = "#0d6768")
 
-    dif1 = Button(frame_boutton_dif, text="Niveau 1",font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda : win_theme(2))
+    dif1 = Button(frame_boutton_dif, text="Niveau 1",font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda : win_theme([2,1]))
     dif1.grid(row=1, column=1)
 
-    dif2 = Button(frame_boutton_dif, text="Niveau 2",font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda : win_theme(2))
+    dif2 = Button(frame_boutton_dif, text="Niveau 2",font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda : win_theme([2,2]))
     dif2.grid(row=1, column=2)
 
-    dif2 = Button(frame_boutton_dif, text="Niveau 3",font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda : win_theme(2))
+    dif2 = Button(frame_boutton_dif, text="Niveau 3",font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda : win_theme([2,3]))
     dif2.grid(row=1, column=3)
 
     frame_boutton_dif.pack( pady = 70)
@@ -120,7 +120,7 @@ def window_dif():
     win_dif.mainloop()
 
 def win_theme(mode):
-    if mode == 2:
+    if mode[0] == 2:
         win_dif.destroy()
     else:
         win_mode.destroy()
@@ -163,7 +163,7 @@ def win_theme(mode):
             Frame(frame_boutton, height=15, background='#0d6768').grid(row=i)
             i += 1
 
-        afficher_theme = Button(frame_boutton, text=liste_split[incr],font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda g = incr: window_game(liste[g],False,mode))
+        afficher_theme = Button(frame_boutton, text=liste_split[incr],font=("Courrier",30,'bold'),bg='grey',width = 10, command=lambda g = incr: window_game(liste[g],False,mode,False))
         afficher_theme.grid(row=i, column=y)
         y += 1
         Frame(frame_boutton, width=20, background='#0d6768').grid(column=y)
@@ -175,19 +175,39 @@ def win_theme(mode):
     win_theme.mainloop()
 
 
-def window_game(fichier,save,mode):
-
+def window_game(fichier,save,mode,restart):
+    global dicoperso
+    
     localisation_json(fichier)
-    if save != True:
-      init_save(fichier,mode)
-      win_theme.destroy()
-    if mode==2:
-      bd_ia(fichier)
     affichage_possibilite()
+        
+    if save != True:
+      dicoperso = randompersonnage()  #choix du personnage à trouver
+      with open("json/" + fichier, 'r',encoding='utf-8') as f:
+        data = json.load(f)
+        possibilites =data["possibilites"]
+        for i in data["possibilites"]:
+          if dicoperso==possibilites[str(i)]:
+            cible = str(i)
+      init_save(fichier,mode,cible)
+      if restart == False:
+        win_theme.destroy()
+    else:
+      with open('save_file.json', 'r') as f:
+        data = json.load(f)
+        cible = data["cible"]
+        
+      with open("json/" + fichier, 'r',encoding='utf-8') as f:
+        data = json.load(f)
+        possibilites =data["possibilites"]
+        dicoperso = possibilites[cible]
+    print("dicoperso",dicoperso)  
+    if mode[0] == 2:
+      bd_ia(fichier,save)
 
     #print(creerlisteId("genre","homme"))
 
-    affichage_possibilite()
+
     win2= Tk()
     win2.resizable(False, False)
     win2.config(background='#0d6768')
@@ -318,7 +338,7 @@ def window_game(fichier,save,mode):
         if liste[i] not in l:
           l.append(liste[i])
         i=i+1
-      print(l,"l")
+      #print(l,"l")
       return l
 
 
@@ -331,12 +351,12 @@ def window_game(fichier,save,mode):
       l1=[]
       if liste!=[]:
         l1=creerliste(liste[0],liste[1])
-        print(l1,"l1 premier")
+        #print(l1,"l1 premier")
         del liste[0:2]
       l3=[]
       while liste != []:
                 l2=creerliste(liste[0],liste[1])
-                print (l2,"l2 debut")
+                #print (l2,"l2 debut")
                 if connecteur=="ET":
                   for i in range (len(l2)):
                     if l2[i] in l1:
@@ -347,7 +367,7 @@ def window_game(fichier,save,mode):
                     if l2[i] not in l1:
                       l1.append(l2[i])
                 del liste[0:2]
-      l1=enlevedouble(l1)
+      l1=enlevedouble(l1) #why? 
       return(l1)
 
 
@@ -416,7 +436,7 @@ def window_game(fichier,save,mode):
         framebravo.grid(row = 3, column = 2)
         labelbravo.grid(columnspan=2,ipadx=20,ipady=20)
 
-        recommencer=Button(framebravo,text="Recommencer",command=partie)
+        recommencer=Button(framebravo,text="Recommencer",command=re_partie)
         recommencer.grid(row=2,pady=5)
 
         quitter=Button(framebravo,text="Quitter",command=win2.destroy)
@@ -459,6 +479,8 @@ def window_game(fichier,save,mode):
     def vraitest():
       global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu,choixliste
       t=verif(choixliste)
+      if mode == 2:
+        ia_opti()
       if  test:
         label_reponse = Label(framereponse,
                                 font=("Courrier", 12),
@@ -478,11 +500,11 @@ def window_game(fichier,save,mode):
         non.grid(row=2, column=3, pady=10, padx=5)
         if val.get()==1:
           personne=listepersonne()
-          print( personne, "avant complement")
+          #print( personne, "avant complement")
           if t=="TRUE":
             personne=complementliste(personne)
-            print(personne,"vraichoix")
-          print(personne, "     personne à éliminer")
+            #print(personne,"vraichoix")
+          #print(personne, "     personne à éliminer")
           crossed_cheat(fichier,liste_id_nom(personne))
           labeltriche=Label(framereponse,font=("Courrier", 12),
                                 bg="DarkTurquoise",
@@ -573,28 +595,24 @@ def window_game(fichier,save,mode):
 
 
     #relance une nouvelle partie
+    def re_partie():
+      win2.destroy()
+      window_game(fichier,False,mode,True)
+      
     def partie():
-      global dicoperso,perd
-
-      dicoperso = randompersonnage()  #choix du personnage
+      global perd
+      
       perd=0
       #print(dicoperso)
       question()
-
-
+      print("partie")
      #initialise la partie au premier lancement du programme
     partie()
 
-    print(dicoperso)
+   
     win2.mainloop()
 
-#pose une question random
-#def random_ia():
-  #arg = liste des arguments
-  #q1 = randint(2,len(arg))
-  #val= liste des valeurs de q1 (un argument choisis aléatoirement)
-  #verifier si la reponse est juste ou non
-  #retirer des perso en fonction de la réponse
+
 
 #affiche l'image avec une croix
 def crossed(r,c,h,w,nom_img,id):
@@ -655,11 +673,10 @@ def save_verif():
       theme = data['theme']
       mode = data['mode']
       win.destroy()
-      window_game(theme,True,mode)
+      window_game(theme,True,mode,False)
   else:
     messagebox.showerror("Error Example", "Aucune sauvegarde")
 
 window()
-
 
 

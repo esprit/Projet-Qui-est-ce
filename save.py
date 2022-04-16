@@ -1,6 +1,6 @@
 import json
 #créer un fichier json pour la save où tout est initialisé à 0 (pas cocher)
-def init_save(theme,mode):
+def init_save(theme,mode,cible):
   with open("json/"+theme, 'r') as f:
     data = json.load(f)
     possibilites = data["possibilites"]
@@ -12,6 +12,7 @@ def init_save(theme,mode):
   input = {
     "theme" : theme, 
     "mode" : mode,
+    "cible" : cible,
     "possibilites" : tab,
    
   }
@@ -20,7 +21,7 @@ def init_save(theme,mode):
     
       
 #initialise la base de donnée pour le mode JvIA (dans save_file.json)
-def bd_ia(theme):
+def bd_ia(theme,save):
   with open("json/"+theme, 'r') as f:
     data = json.load(f)
     possibilites = data["possibilites"]
@@ -41,15 +42,13 @@ def bd_ia(theme):
   
   with open('save_file.json', 'r') as f:
     data_save = json.load(f)
-    
+    if save != True:
+      data_save["trouve"] = []
+      data_save["historique"] = []
   data_save["ia"] = ia
-  data_save["trouve"] = []
+  
   with open('save_file.json', 'w') as outfile:
     json.dump(data_save, outfile)
-
-
-
-
 
     
 #change la valeur de l'id de l'image dans save en 1(image cocher)
