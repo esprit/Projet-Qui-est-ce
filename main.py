@@ -201,7 +201,7 @@ def window_game(fichier,save,mode,restart):
         data = json.load(f)
         possibilites =data["possibilites"]
         dicoperso = possibilites[cible]
-    print("dicoperso",dicoperso)  
+    #print("dicoperso",dicoperso)  
     if mode[0] == 2:
       bd_ia(fichier,save)
 
@@ -471,17 +471,20 @@ def window_game(fichier,save,mode,restart):
 
 
 
-
-
-
-
     #affichage vrai test sur la deuxieme frame
     def vraitest():
       global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu,choixliste
       t=verif(choixliste)
-      if mode == 2:
-        ia_opti()
+      
       if  test:
+        if mode[0] == 2: #si choisis coopVSia
+          if mode[1] == 1: #niveau 1
+            ia_opti(True)
+          elif mode[1] == 2: #niveau 2
+            r=random.choice([True, False])
+            ia_opti(r)
+          else: #niveau 3 (default)
+            ia_opti(False)
         label_reponse = Label(framereponse,
                                 font=("Courrier", 12),
                                 bg="DarkTurquoise",
@@ -605,7 +608,7 @@ def window_game(fichier,save,mode,restart):
       perd=0
       #print(dicoperso)
       question()
-      print("partie")
+      #print("partie")
      #initialise la partie au premier lancement du programme
     partie()
 

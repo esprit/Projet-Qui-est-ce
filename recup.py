@@ -102,7 +102,7 @@ def creerlisteId(caract,valeur):
   return(possibles)
 
 #fonction "optimimal", l'ia pose la question qui peut potentiellement enlever le plus de personnages 
-def ia_opti():
+def ia_opti(randomize):
   with open("json/" + fichier, 'r',encoding='utf-8') as file:
     datum = json.load(file)
     possibilites = datum["possibilites"]
@@ -110,11 +110,14 @@ def ia_opti():
     data = json.load(f)
     bd_ia = data["ia"]
     keys = list(bd_ia) #liste des arguments (keys)
-    max=["","",0,[]]
-    trouve = data["trouve"]
-    cible = data["cible"]
-    historique = data["historique"]
-    reste = len(possibilites)-len(trouve)
+    max=["","",0,[]] #max[argument,valeur,nbr_occurence,liste_perso_correspondant]
+    trouve = data["trouve"] #liste des id des perso trouvé
+    cible = data["cible"] #id du perso à trouver
+    historique = data["historique"] #liste des questions déja posé
+    reste = len(possibilites)-len(trouve) #nbr de perso restant à cocher
+    chance=[True] 
+    r=True
+    
     for i in range(0,len(keys),1):
       arg_ia = keys[i] #argument
       val = bd_ia[arg_ia] #liste valeurs argument
@@ -122,18 +125,26 @@ def ia_opti():
         val_ia = val[j] #valeur argument
         l_id = creerlisteId(arg_ia,val[j]) #liste des personnes avec les caractéristiques correspondantes
         compteur = len(l_id)
-        #print("l_id=",l_id)
         verif = [arg_ia, val_ia]
-        #print("verif =",verif)
-        if verif not in historique:
+        if verif not in historique: #si question jamais posé avant
           for k in range(len(l_id)): #calcul le nbr de perso pas encore trouvés 
             if l_id[k] in trouve:
               compteur -= 1
-          if (reste>compteur)and(compteur>max[2]): #remplace max si plus grand
-            max[0]=arg_ia
-            max[1]=val_ia
-            max[2]=compteur
-            max[3]=l_id
+          if randomize: #si on veut une question random 
+            if (reste > compteur):
+              chance.append(not(r))
+              r=random.choice(chance)
+              if r or (max==["","",0,[]]): #entre s'il y a au moins 2 perso à trouver ET si r est true, OU si max est vide(pour au moins choisir une question)
+                max[0]=arg_ia
+                max[1]=val_ia
+                max[2]=compteur
+                max[3]=l_id
+          else:
+            if (reste>compteur)and(compteur>max[2]): #remplace max si plus grand
+              max[0]=arg_ia
+              max[1]=val_ia
+              max[2]=compteur
+              max[3]=l_id
   t = max[3]
   ajoute = []
 
@@ -141,11 +152,9 @@ def ia_opti():
     for i in range(len(t)):
       ajoute.append(str(t[i]))
   else :  #"coche" tous les perso qui ne sont pas dans t
-    #print("in else")
     for i in range(len(possibilites)):
       if str(i) not in t:
         ajoute.append(str(i))
-  #print("ajoute=",ajoute)     
   for i in range(len(ajoute)):
     if ajoute[i] not in trouve:
       trouve.append(ajoute[i])
@@ -155,16 +164,13 @@ def ia_opti():
   reste = len(possibilites)-len(trouve)
   with open("save_file.json", "w") as outfile:
     json.dump(data, outfile)
-  print("max = ",max) 
-  print("trouve = ",trouve) 
-  if reste == 1:
-    print("ia win!")
-  print("nbr de perso restant = ",reste)
-  return(trouve) #max[argument,valeur,nbr_occurence,liste_perso_correspondant]
 
-#pose une question random
-def random_ia():
-  pass
+  if reste == 1:
+    #/!\ mettre la fonction qui dit que l'ia à gagner ici où après l'appel de ia_opti /!\
+    print("ia win!")
+    
+  return(reste) #return reste 
+
 
   
 #rempli la liste "trouve" avec les perso à enlever
