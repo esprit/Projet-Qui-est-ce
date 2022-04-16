@@ -165,11 +165,8 @@ def ia_opti(randomize):
   with open("save_file.json", "w") as outfile:
     json.dump(data, outfile)
 
-  if reste == 1:
-    #/!\ mettre la fonction qui dit que l'ia à gagner ici où après l'appel de ia_opti /!\
-    print("ia win!")
-    
-  return(reste) #return reste 
+  print("reste",reste)
+  return(reste) #return reste
 
 
   

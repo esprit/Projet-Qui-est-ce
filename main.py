@@ -201,11 +201,9 @@ def window_game(fichier,save,mode,restart):
         data = json.load(f)
         possibilites =data["possibilites"]
         dicoperso = possibilites[cible]
-    #print("dicoperso",dicoperso)  
     if mode[0] == 2:
       bd_ia(fichier,save)
 
-    #print(creerlisteId("genre","homme"))
 
 
     win2= Tk()
@@ -338,7 +336,6 @@ def window_game(fichier,save,mode,restart):
         if liste[i] not in l:
           l.append(liste[i])
         i=i+1
-      #print(l,"l")
       return l
 
 
@@ -351,12 +348,10 @@ def window_game(fichier,save,mode,restart):
       l1=[]
       if liste!=[]:
         l1=creerliste(liste[0],liste[1])
-        #print(l1,"l1 premier")
         del liste[0:2]
       l3=[]
       while liste != []:
                 l2=creerliste(liste[0],liste[1])
-                #print (l2,"l2 debut")
                 if connecteur=="ET":
                   for i in range (len(l2)):
                     if l2[i] in l1:
@@ -443,21 +438,52 @@ def window_game(fichier,save,mode,restart):
         quitter.grid(row=2,column=1,pady=5)
 
       else:
-        NON()
-        perd=1
-        frameperdu=Frame(myframe_box,bg="DarkTurquoise",relief=RAISED,bd=3)
-        frameperdu.grid(row=1,column=2)
-        perdu=Label(frameperdu,text="Perdu, essaye encore !",bg="DarkTurquoise",font=("Courrier", 15))
-        perdu.grid(padx=20,pady=20)
-
-
-
+        if reste == 1:
+          frameMain.destroy()
+          framereponse.destroy()
+          framebravo=Frame(myframe_box,bg="DarkTurquoise",relief=RAISED,bd=3)
+          labelbravo=Label(framebravo,
+                                font=("Courrier", 26),
+                                bg="DarkTurquoise",
+                                text=" PERDU, l'Ia a trouvé " + dicoperso["nom"] + " avant vous!")
+          framebravo.grid(row = 3, column = 2)
+          labelbravo.grid(columnspan=2,ipadx=20,ipady=20)
+  
+          recommencer=Button(framebravo,text="Recommencer",command=re_partie)
+          recommencer.grid(row=2,pady=5)
+  
+          quitter=Button(framebravo,text="Quitter",command=win2.destroy)
+          quitter.grid(row=2,column=1,pady=5)
+        else: 
+          NON()
+          perd=1
+          frameperdu=Frame(myframe_box,bg="DarkTurquoise",relief=RAISED,bd=3)
+          frameperdu.grid(row=1,column=2)
+          perdu=Label(frameperdu,text="Perdu, essaye encore !",bg="DarkTurquoise",font=("Courrier", 15))
+          perdu.grid(padx=20,pady=20)
 
 
     def NON():
-      frameMain.destroy()
-      framereponse.destroy()
-      question()
+      if reste == 1:
+        frameMain.destroy()
+        framereponse.destroy()
+        framebravo=Frame(myframe_box,bg="DarkTurquoise",relief=RAISED,bd=3)
+        labelbravo=Label(framebravo,
+                              font=("Courrier", 26),
+                              bg="DarkTurquoise",
+                              text=" PERDU, l'Ia a trouvé " + dicoperso["nom"] + " avant vous!")
+        framebravo.grid(row = 3, column = 2)
+        labelbravo.grid(columnspan=2,ipadx=20,ipady=20)
+
+        recommencer=Button(framebravo,text="Recommencer",command=re_partie)
+        recommencer.grid(row=2,pady=5)
+
+        quitter=Button(framebravo,text="Quitter",command=win2.destroy)
+        quitter.grid(row=2,column=1,pady=5)
+      else:
+        frameMain.destroy()
+        framereponse.destroy()
+        question()
 
 
     def OUI():
@@ -473,23 +499,30 @@ def window_game(fichier,save,mode,restart):
 
     #affichage vrai test sur la deuxieme frame
     def vraitest():
-      global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu,choixliste
+      global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu,choixliste,reste
       t=verif(choixliste)
       
-      if  test:
-        if mode[0] == 2: #si choisis coopVSia
+      if test:
+        if mode[0] == 2: #si choisis JoueurVsIa
           if mode[1] == 1: #niveau 1
-            ia_opti(True)
+            reste = ia_opti(True)
           elif mode[1] == 2: #niveau 2
             r=random.choice([True, False])
-            ia_opti(r)
+            reste = ia_opti(r)
           else: #niveau 3 (default)
-            ia_opti(False)
-        label_reponse = Label(framereponse,
-                                font=("Courrier", 12),
-                                bg="DarkTurquoise",
-                                text=" La réponse est " + t)
-        label_reponse.grid(columnspan=5, pady=20, padx=10)
+            reste = ia_opti(False)
+        if reste==1:
+          label_reponse = Label(framereponse,
+                                  font=("Courrier", 12),
+                                  bg="DarkTurquoise",
+                                  text=" La réponse est " + t + ".\n L'ia a trouvé le personnage.")
+          label_reponse.grid(columnspan=5, pady=20, padx=10)
+        else:
+          label_reponse = Label(framereponse,
+                                  font=("Courrier", 12),
+                                  bg="DarkTurquoise",
+                                  text=" La réponse est " + t + ".\n Il reste " + str(reste) + " choix à l'ia \n pour trouver le personnage")
+          label_reponse.grid(columnspan=5, pady=20, padx=10)
         framesuite = Frame(framereponse, relief=GROOVE, bg="DarkTurquoise", bd=4)
         framesuite.grid(row=1, column=0, padx=10,pady=10)
         label_perso=Label(framesuite,font=("Courrier", 12),
@@ -503,11 +536,10 @@ def window_game(fichier,save,mode,restart):
         non.grid(row=2, column=3, pady=10, padx=5)
         if val.get()==1:
           personne=listepersonne()
-          #print( personne, "avant complement")
+
           if t=="TRUE":
             personne=complementliste(personne)
-            #print(personne,"vraichoix")
-          #print(personne, "     personne à éliminer")
+
           crossed_cheat(fichier,liste_id_nom(personne))
           labeltriche=Label(framereponse,font=("Courrier", 12),
                                 bg="DarkTurquoise",
@@ -596,7 +628,6 @@ def window_game(fichier,save,mode,restart):
       triche.grid(row=0,column=3,columnspan=2, padx=5,ipady=5,ipadx=7)
 
 
-
     #relance une nouvelle partie
     def re_partie():
       win2.destroy()
@@ -606,15 +637,11 @@ def window_game(fichier,save,mode,restart):
       global perd
       
       perd=0
-      #print(dicoperso)
       question()
-      #print("partie")
      #initialise la partie au premier lancement du programme
     partie()
-
    
     win2.mainloop()
-
 
 
 #affiche l'image avec une croix
@@ -656,7 +683,6 @@ def on_reclick(event,r,c,h,w,nom_img,id):
   reclicked_save(id)
 
 def crossed_cheat(fichier,Liste_id):
-
   for i in range(len(Liste_id)):
     id = Liste_id[i]
     image = ImageTk.PhotoImage(Image.open(mes_images[id]))
@@ -681,5 +707,3 @@ def save_verif():
     messagebox.showerror("Error Example", "Aucune sauvegarde")
 
 window()
-
-
