@@ -7,8 +7,8 @@ Sommaire
 ################################################################################
 
 1- Configuration
-2- Bibliothèque utilisé
-3- Problème connus
+2- Bibliothèques utilisées
+3- Problèmes connus
 4- liens utiles
 
 ################################################################################
@@ -16,25 +16,25 @@ Sommaire
 1- Configuration
 Jeux crée en python 3 sous windows (non testé sous Linux)
 
-2- Bibliothèque 
+2- Bibliothèques 
 	tkinter : https://docs.python.org/fr/3/library/tkinter.html?highlight=tkinter#module-tkinter
 	Pillow - PIL : https://pypi.org/project/Pillow/
 	os : https://docs.python.org/fr/3/library/os.html?highlight=os#module-os
 	json : https://docs.python.org/fr/3/library/json.html?highlight=json#module-json
 	random : https://docs.python.org/fr/3/library/random.html
 
-3- Problème 
-	le mode triche rencontre des problemes avec l'uitilisation de connecteurs logiques (ET, OU)
-	L'extention (Joueur vs IA) non finis
-	L'interface à ameliorer
-	Nouveau systeme d'affichage de page à realiser
+3- Problèmes 
+	Le mode triche rencontre des problèmes avec l'utilisation des connecteurs logiques (ET, OU)
+	L'extension (Joueur vs IA) n'est pas encore finis
+	L'interface est à ameliorer (
+	Nouveau système d'affichage de page à realiser (rendre les transitions entre page plus fluide)
 
  4 - Liens
 	Github : https://github.com/MatheoBeu/Projet-Qui-est-ce 
-		(Pseudo Github = Prenom : MatheoBeu = Beuve Matheo
-					  icarus213 = Couraud Heimanu
-					  Audrey3344 = Majorel Audrey
-					  Esprit = Moustaid Mohamed )
+		(Pseudo Github :MatheoBeu = Beuve Matheo
+				icarus213 = Couraud Heimanu
+				Audrey3344 = Majorel Audrey
+				Esprit = Moustaid Mohamed )
 	
 	Mails : matheo.beuve@etu.umontpellier.fr
 		
