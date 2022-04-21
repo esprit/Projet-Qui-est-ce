@@ -101,7 +101,7 @@ def creerlisteId(caract,valeur):
         possibles.append(str(i))
   return(possibles)
 
-#fonction "optimimal", l'ia pose la question qui peut potentiellement enlever le plus de personnages 
+#fonction "optimimal", l'ia pose la question qui peut potentiellement enlever le plus de personnages
 def ia_opti(randomize):
   with open("json/" + fichier, 'r',encoding='utf-8') as file:
     datum = json.load(file)
@@ -115,9 +115,9 @@ def ia_opti(randomize):
     cible = data["cible"] #id du perso à trouver
     historique = data["historique"] #liste des questions déja posé
     reste = len(possibilites)-len(trouve) #nbr de perso restant à cocher
-    chance=[True] 
+    chance=[True]
     r=True
-    
+
     for i in range(0,len(keys),1):
       arg_ia = keys[i] #argument
       val = bd_ia[arg_ia] #liste valeurs argument
@@ -127,10 +127,10 @@ def ia_opti(randomize):
         compteur = len(l_id)
         verif = [arg_ia, val_ia]
         if verif not in historique: #si question jamais posé avant
-          for k in range(len(l_id)): #calcul le nbr de perso pas encore trouvés 
+          for k in range(len(l_id)): #calcul le nbr de perso pas encore trouvés
             if l_id[k] in trouve:
               compteur -= 1
-          if randomize: #si on veut une question random 
+          if randomize: #si on veut une question random
             if (reste > compteur):
               chance.append(not(r))
               r=random.choice(chance)
@@ -158,7 +158,7 @@ def ia_opti(randomize):
   for i in range(len(ajoute)):
     if ajoute[i] not in trouve:
       trouve.append(ajoute[i])
-  
+
   historique.append([max[0],max[1]])
   data["trouve"] = trouve
   reste = len(possibilites)-len(trouve)
@@ -169,7 +169,7 @@ def ia_opti(randomize):
   return(reste) #return reste
 
 
-  
+
 #rempli la liste "trouve" avec les perso à enlever
 def ia_find(Liste_id):
   with open('save_file.json', 'r') as f:
@@ -177,3 +177,22 @@ def ia_find(Liste_id):
     trouve = data_save["trouve"]
     for i in range(len(Liste_id)):
       trouve.append(Liste_id(i))
+
+
+
+def perso_elim(liste_perso):
+    with open('save_file.json', 'r') as f:
+        data_save = json.load(f)
+        possibilites = data_save["possibilites"]
+        liste_supr = []
+        for i in range(len(liste_perso)):
+            print("test")
+            print (liste_perso)
+            if possibilites[str(liste_perso[i])] == "1":
+                liste_supr.append(liste_perso[i])
+    print(liste_supr)
+    for element in liste_supr:
+        if element in liste_perso:
+            liste_perso.remove(element)
+    return liste_perso
+
