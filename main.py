@@ -501,7 +501,7 @@ def window_game(fichier,save,mode,restart):
     def vraitest():
       global framesuite,label_reponse,oui,non,label_perso,perd,frameperdu,choixliste,reste
       t=verif(choixliste)
-      
+      reste = 0
       if test:
         if mode[0] == 2: #si choisis JoueurVsIa
           if mode[1] == 1: #niveau 1
