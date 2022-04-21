@@ -518,11 +518,18 @@ def window_game(fichier,save,mode,restart):
                                   text=" La réponse est " + t + ".\n L'ia a trouvé le personnage.")
           label_reponse.grid(columnspan=5, pady=20, padx=10)
         else:
-          label_reponse = Label(framereponse,
-                                  font=("Courrier", 12),
-                                  bg="DarkTurquoise",
-                                  text=" La réponse est " + t + ".\n Il reste " + str(reste) + " choix à l'ia \n pour trouver le personnage")
-          label_reponse.grid(columnspan=5, pady=20, padx=10)
+          if mode[0] == 2:
+            label_reponse = Label(framereponse,
+                                    font=("Courrier", 12),
+                                    bg="DarkTurquoise",
+                                    text=" La réponse est " + t + ".\n Il reste " + str(reste) + " choix à l'ia \n pour trouver le personnage")
+            label_reponse.grid(columnspan=5, pady=20, padx=10)
+          else:
+            label_reponse = Label(framereponse,
+                                    font=("Courrier", 12),
+                                    bg="DarkTurquoise",
+                                    text=" La réponse est " + t )
+            label_reponse.grid(columnspan=5, pady=20, padx=10)
         framesuite = Frame(framereponse, relief=GROOVE, bg="DarkTurquoise", bd=4)
         framesuite.grid(row=1, column=0, padx=10,pady=10)
         label_perso=Label(framesuite,font=("Courrier", 12),
