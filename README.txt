@@ -26,8 +26,7 @@ Jeux crée en python 3 sous windows (non testé sous Linux)
 3- Problèmes 
 	Le mode triche rencontre des problèmes avec l'utilisation des connecteurs logiques (ET, OU)
 	L'extension (Joueur vs IA) n'est pas encore finis
-	L'interface est à ameliorer (
-	Nouveau système d'affichage de page à realiser (rendre les transitions entre page plus fluide)
+	
 
  4 - Liens
 	Github : https://github.com/MatheoBeu/Projet-Qui-est-ce 
