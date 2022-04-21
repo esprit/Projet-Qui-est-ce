@@ -550,13 +550,15 @@ def window_game(fichier,save,mode,restart):
           if t=="TRUE":
             personne=complementliste(personne)
 
-          crossed_cheat(fichier,liste_id_nom(personne))
+
           labeltriche=Label(framereponse,font=("Courrier", 12),
                                 bg="DarkTurquoise",
-                                text= str(len(personne))+" personnages à éliminer")
+                                text= str(len(perso_elim(liste_id_nom(personne))))+" personnages à éliminer")
           labeltriche.grid(row=3, column=0, pady=10, padx=5)
+          crossed_cheat(fichier,liste_id_nom(personne))
       else:
         print("fais ton choix :)")
+
 
 
     def ET():
