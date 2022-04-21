@@ -518,14 +518,14 @@ def window_game(fichier,save,mode,restart):
           label_reponse = Label(framereponse,
                                   font=("Courrier", 12),
                                   bg="DarkTurquoise",
-                                  text=" La réponse est " + t + ".\n L'ia a trouvé le personnage.")
+                                  text=" La réponse est " + t + ".\n L'ia a trouvé l'image.")
           label_reponse.grid(columnspan=5, pady=20, padx=10)
         else:
           if mode[0] == 2:
             label_reponse = Label(framereponse,
                                     font=("Courrier", 12),
                                     bg="DarkTurquoise",
-                                    text=" La réponse est " + t + ".\n Il reste " + str(reste) + " choix à l'ia \n pour trouver le personnage")
+                                    text=" La réponse est " + t + ".\n Il reste " + str(reste) + " choix à l'ia \n pour trouver l'image")
             label_reponse.grid(columnspan=5, pady=20, padx=10)
           else:
             label_reponse = Label(framereponse,
@@ -553,7 +553,7 @@ def window_game(fichier,save,mode,restart):
 
           labeltriche=Label(framereponse,font=("Courrier", 12),
                                 bg="DarkTurquoise",
-                                text= str(len(perso_elim(liste_id_nom(personne))))+" personnages à éliminer")
+                                text= str(len(perso_elim(liste_id_nom(personne))))+" image(s) à éliminer")
           labeltriche.grid(row=3, column=0, pady=10, padx=5)
           crossed_cheat(fichier,liste_id_nom(personne))
       else:
