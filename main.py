@@ -43,6 +43,7 @@ def window_mode():
     win.destroy()
     global win_mode
     win_mode= Tk()
+    win_mode.title("Mode")
     win_mode.resizable(False, False)
     win_mode.config(background='#0d6768')
 
@@ -86,6 +87,7 @@ def window_dif():
     win_mode.destroy()
     global win_dif
     win_dif= Tk()
+    win_dif.title("IA vs Joueur")
     win_dif.resizable(False, False)
     win_dif.config(background='#0d6768')
 
@@ -129,7 +131,7 @@ def win_theme(mode):
     win_theme= Tk()
     win_theme.resizable(False, False)
     win_theme.config(background='#0d6768')
-
+    win_theme.title("Thème")
     window_height = 900
     window_width = 1400
 
@@ -177,10 +179,10 @@ def win_theme(mode):
 
 def window_game(fichier,save,mode,restart):
     global dicoperso
-    
+
     localisation_json(fichier)
     affichage_possibilite()
-        
+
     if save != True:
       dicoperso = randompersonnage()  #choix du personnage à trouver
       with open("json/" + fichier, 'r',encoding='utf-8') as f:
@@ -196,7 +198,7 @@ def window_game(fichier,save,mode,restart):
       with open('save_file.json', 'r') as f:
         data = json.load(f)
         cible = data["cible"]
-        
+
       with open("json/" + fichier, 'r',encoding='utf-8') as f:
         data = json.load(f)
         possibilites =data["possibilites"]
@@ -209,6 +211,7 @@ def window_game(fichier,save,mode,restart):
     win2= Tk()
     win2.resizable(False, False)
     win2.config(background='#0d6768')
+    win2.title("Qui est-ce ?")
     window_height = 900
     window_width = 1400
 
@@ -362,7 +365,7 @@ def window_game(fichier,save,mode,restart):
                     if l2[i] not in l1:
                       l1.append(l2[i])
                 del liste[0:2]
-      l1=enlevedouble(l1) #why? 
+      l1=enlevedouble(l1) #why?
       return(l1)
 
 
@@ -448,13 +451,13 @@ def window_game(fichier,save,mode,restart):
                                 text=" PERDU, l'Ia a trouvé " + dicoperso["nom"] + " avant vous!")
           framebravo.grid(row = 3, column = 2)
           labelbravo.grid(columnspan=2,ipadx=20,ipady=20)
-  
+
           recommencer=Button(framebravo,text="Recommencer",command=re_partie)
           recommencer.grid(row=2,pady=5)
-  
+
           quitter=Button(framebravo,text="Quitter",command=win2.destroy)
           quitter.grid(row=2,column=1,pady=5)
-        else: 
+        else:
           NON()
           perd=1
           frameperdu=Frame(myframe_box,bg="DarkTurquoise",relief=RAISED,bd=3)
@@ -639,15 +642,15 @@ def window_game(fichier,save,mode,restart):
     def re_partie():
       win2.destroy()
       window_game(fichier,False,mode,True)
-      
+
     def partie():
       global perd
-      
+
       perd=0
       question()
      #initialise la partie au premier lancement du programme
     partie()
-   
+
     win2.mainloop()
 
 
