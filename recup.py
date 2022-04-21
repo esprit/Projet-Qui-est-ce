@@ -165,7 +165,6 @@ def ia_opti(randomize):
   with open("save_file.json", "w") as outfile:
     json.dump(data, outfile)
 
-  print("reste",reste)
   return(reste) #return reste
 
 
@@ -186,13 +185,10 @@ def perso_elim(liste_perso):
         possibilites = data_save["possibilites"]
         liste_supr = []
         for i in range(len(liste_perso)):
-            print("test")
-            print (liste_perso)
+
             if possibilites[str(liste_perso[i])] == "1":
                 liste_supr.append(liste_perso[i])
-    print(liste_supr)
     for element in liste_supr:
         if element in liste_perso:
             liste_perso.remove(element)
     return liste_perso
-
