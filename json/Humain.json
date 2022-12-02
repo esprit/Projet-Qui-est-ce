@@ -1,0 +1,31 @@
+{
+  "images": "Humain/",
+  "ligne": "4",
+  "colonne": "6",
+  "possibilites": {
+  "0": { "fichier": "samuel.png", "nom": "Samuel", "genre": "homme", "cheveux": "blanc","barbre": "non","moustache": "non","nez": "petit", "lunettes": "oui", "chauve": "oui","chapeau":"non"},
+  "1": { "fichier": "leon.png", "nom": "Léon", "genre": "homme", "cheveux": "blond","barbre": "non","moustache": "non","nez": "petit", "lunettes": "oui", "chauve": "non","chapeau":"non"},
+  "2": { "fichier": "simon.png","nom": "Simon", "genre": "homme", "cheveux": "blanc","barbre": "non","moustache": "non","nez": "petit", "lunettes": "oui", "chauve": "non","chapeau":"non"},
+  "3": { "fichier": "alfred.png", "nom": "Alfred", "genre": "homme", "cheveux": "roux","barbre": "non","moustache": "oui","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "4": { "fichier": "anita.png", "nom": "Anita", "genre": "femme", "cheveux": "blond","barbre": "non","moustache": "non","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "5": { "fichier": "anna.png","nom": "Anna", "genre": "femme", "cheveux": "noir","barbre": "non","moustache": "non","nez": "gros", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "6": { "fichier": "charlie.png", "nom": "Charlie", "genre": "homme", "cheveux": "blond","barbre": "non","moustache": "oui","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "7": { "fichier": "clara.png", "nom": "Clara", "genre": "femme", "cheveux": "roux","barbre": "non","moustache": "non","nez": "petit", "lunettes": "oui", "chauve": "non","chapeau":"oui"},
+  "8": { "fichier": "eric.png","nom": "Eric", "genre": "homme", "cheveux": "blanc","barbre": "non","moustache": "non","nez": "gros", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "9": { "fichier": "felix.png", "nom": "Félix", "genre": "homme", "cheveux": "blond","barbre": "non","moustache": "non","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"oui"},
+  "10": { "fichier": "jeremie.png", "nom": "Jérèmie", "genre": "homme", "cheveux": "marron","barbre": "non","moustache": "non","nez": "gros", "lunettes": "non", "chauve": "non","chapeau":"oui"},
+  "11": { "fichier": "luc.png","nom": "Luc", "genre": "homme", "cheveux": "noir","barbre": "oui","moustache": "non","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "12": { "fichier": "lucas.png", "nom": "Lucas", "genre": "homme", "cheveux": "roux","barbre": "non","moustache": "non","nez": "gros", "lunettes": "non", "chauve": "oui","chapeau":"non"},
+  "13": { "fichier": "manu.png", "nom": "Manu", "genre": "homme", "cheveux": "marron","barbre": "non","moustache": "oui","nez": "gros", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "14": { "fichier": "maria.png","nom": "Maria", "genre": "femme", "cheveux": "marron","barbre": "non","moustache": "non","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"oui"},
+  "15": { "fichier": "mario.png", "nom": "Mario", "genre": "homme", "cheveux": "blond","barbre": "oui","moustache": "non","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "16": { "fichier": "martin.png", "nom": "Martin", "genre": "homme", "cheveux": "blanc","barbre": "non","moustache": "non","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"oui"},
+  "17": { "fichier": "max.png","nom": "Max", "genre": "homme", "cheveux": "noir","barbre": "non","moustache": "oui","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "18": { "fichier": "omar.png", "nom": "Omar", "genre": "homme", "cheveux": "roux","barbre": "non","moustache": "non","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "19": { "fichier": "oscar.png", "nom": "Oscar", "genre": "homme", "cheveux": "marron","barbre": "non","moustache": "non","nez": "gros", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "20": { "fichier": "romeo.png","nom": "Romeo", "genre": "homme", "cheveux": "marron","barbre": "oui","moustache": "oui","nez": "petit", "lunettes": "non", "chauve": "oui","chapeau":"non"},
+  "21": { "fichier": "suzane.png", "nom": "Suzane", "genre": "femme", "cheveux": "blanc","barbre": "non","moustache": "non","nez": "petit", "lunettes": "non", "chauve": "non","chapeau":"non"},
+  "22": { "fichier": "timeo.png", "nom": "Timeo", "genre": "homme", "cheveux": "noir","barbre": "non","moustache": "non","nez": "petit", "lunettes": "oui", "chauve": "oui","chapeau":"non"},
+  "23": { "fichier": "tony.png","nom": "Tony", "genre": "homme", "cheveux": "roux","barbre": "oui","moustache": "non","nez": "petit", "lunettes": "non", "chauve": "oui","chapeau":"non"}
+  }
+}

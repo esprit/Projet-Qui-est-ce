@@ -1,0 +1,27 @@
+{
+  "images": "formegeo/",
+  "ligne": "4",
+  "colonne": "5",
+  "possibilites": {
+  "0": { "fichier": "cercle.png", "nom": "Cercle", "nombre_cote/face": "1", "cotes/faces_tous_identiques": "oui", "angle_droit": "non", "dimension": "2D","cotes/faces_paralleles":"non","contient_un_cercle":"oui"},
+  "1": { "fichier":"carre.png", "nom": "Carré", "nombre_cote/face": "4", "cotes/faces_tous_identiques": "oui", "angle_droit": "oui", "dimension": "2D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "2": { "fichier": "rectangle.png","nom": "Rectangle", "nombre_cote/face": "4", "cotes/faces_tous_identiques": "non", "angle_droit": "oui", "dimension": "2D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "3": { "fichier": "triangleequi.png", "nom": "Triangle équilatéral", "nombre_cote/face": "3", "cotes/faces_tous_identiques": "oui", "angle_droit": "non", "dimension": "2D","cotes/faces_paralleles":"non","contient_un_cercle":"non"},
+  "4": { "fichier": "trianglerect.png", "nom": "Triangle rectangle", "nombre_cote/face": "3", "cotes/faces_tous_identiques": "non", "angle_droit": "oui", "dimension": "2D","cotes/faces_paralleles":"non","contient_un_cercle":"non"},
+  "5": { "fichier": "triangleiso.png","nom": "Triangle isocèle", "nombre_cote/face": "3", "cotes/faces_tous_identiques": "non", "angle_droit": "non", "dimension": "2D","cotes/faces_paralleles":"non","contient_un_cercle":"non"},
+  "6": { "fichier": "losange.png", "nom": "Losange", "nombre_cote/face": "4", "cotes/faces_tous_identiques": "oui", "angle_droit": "non", "dimension": "2D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "7": { "fichier": "trapeze.png", "nom": "Trapèze", "nombre_cote/face": "4", "cotes/faces_tous_identiques": "non", "angle_droit": "non", "dimension": "2D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "8": { "fichier": "pentagone.png","nom": "Pentagone", "nombre_cote/face": "5", "cotes/faces_tous_identiques": "oui", "angle_droit": "non", "dimension": "2D","cotes/faces_paralleles":"non","contient_un_cercle":"non"},
+  "9": { "fichier": "hexagone.png", "nom": "Hexagone", "nombre_cote/face": "6", "cotes/faces_tous_identiques": "oui", "angle_droit": "non", "dimension": "2D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "10": { "fichier": "octogone.png", "nom": "Octogone", "nombre_cote/face": "8", "cotes/faces_tous_identiques": "oui", "angle_droit": "non", "dimension": "2D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "11": { "fichier": "cylindre.png","nom": "Cylindre", "nombre_cote/face": "3", "cotes/faces_tous_identiques": "non", "angle_droit": "oui", "dimension": "3D","cotes/faces_paralleles":"oui","contient_un_cercle":"oui"},
+  "12": { "fichier": "cone.png", "nom": "Cône", "nombre_cote/face": "2", "cotes/faces_tous_identiques": "non", "angle_droit": "non", "dimension": "3D","cotes/faces_paralleles":"non","contient_un_cercle":"oui"},
+  "13": { "fichier": "pavedroit.png", "nom": "Pavé droit", "nombre_cote/face": "6", "cotes/faces_tous_identiques": "non", "angle_droit": "oui", "dimension": "3D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "14": { "fichier": "cube.png","nom": "Cube", "nombre_cote/face": "6", "cotes/faces_tous_identiques": "oui", "angle_droit": "oui", "dimension": "3D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "15": { "fichier": "pyramidebcarré.png", "nom": "Pyramide à base carrée", "nombre_cote/face": "5", "cotes/faces_tous_identiques": "non", "angle_droit": "oui", "dimension": "3D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "16": { "fichier": "sphère.png", "nom": "Sphère", "nombre_cote/face": "1", "cotes/faces_tous_identiques": "oui", "angle_droit": "non", "dimension": "3D","cotes/faces_paralleles":"non","contient_un_cercle":"oui"},
+  "17": { "fichier": "pyramidebtri.png","nom": "Pyramide à base triangulaire", "nombre_cote/face": "4", "cotes/faces_tous_identiques": "non", "angle_droit": "non", "dimension": "3D","cotes/faces_paralleles":"non","contient_un_cercle":"non"},
+  "18": { "fichier": "plg.png", "nom": "Parallélogramme", "nombre_cote/face": "4", "cotes/faces_tous_identiques": "non", "angle_droit": "non", "dimension": "2D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"},
+  "19": { "fichier": "prisme.png", "nom": "Prisme", "nombre_cote/face": "5", "cotes/faces_tous_identiques": "non", "angle_droit": "oui", "dimension": "3D","cotes/faces_paralleles":"oui","contient_un_cercle":"non"}
+  }
+}
